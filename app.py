@@ -1,4 +1,3 @@
-# app.py
 from flask import Flask, request, send_file, jsonify, render_template
 from rembg import remove
 from PIL import Image
@@ -49,8 +48,10 @@ def too_large(e):
     return jsonify({'error': 'File too large. Maximum size is 16MB.'}), 413
 
 if __name__ == '__main__':
-    # Create static directory if it doesn't exist
+    # Create static and templates directories if they don't exist
     os.makedirs('static', exist_ok=True)
     os.makedirs('templates', exist_ok=True)
     
-    app.run(debug=True, host='0.0.0.0', port=5000)
+    # Use the port provided by Render, default to 10000 if not set
+    port = int(os.environ.get("PORT", 10000))
+    app.run(debug=True, host="0.0.0.0", port=port)
